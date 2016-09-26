@@ -30,9 +30,9 @@ public:
 	void update();
 	void render();
 private:
-	const std::string readFile(const std::string file);
+	const std::string readFile(const std::string& file);
 	void loadLevel(const int level);
-	void readLevel(const std::string file);
+	void readLevel(const std::string& file);
 	void reset();
 	void startBallIfNeeded();
 };

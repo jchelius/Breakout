@@ -4,7 +4,7 @@
 #include <iostream>
 
 
-Graphics::Graphics(const int width, const int height, const std::string title):
+Graphics::Graphics(const int width, const int height, const std::string& title):
 	_width(width),
 	_height(height)
 {
@@ -34,7 +34,7 @@ Graphics::~Graphics()
 	SDL_Quit();
 }
 
-void Graphics::setDrawColor(const Color color)
+void Graphics::setDrawColor(const Color& color)
 {
 	_drawColor.r = (Uint8)color.r;
 	_drawColor.g = (Uint8)color.g;
@@ -48,7 +48,7 @@ void Graphics::clear()
 	SDL_RenderClear(_renderer);
 }
 
-SDL_Texture* Graphics::loadTexture(const std::string file)
+SDL_Texture* Graphics::loadTexture(const std::string& file)
 {
 	if(_textures.find(file) == _textures.end())
 	{
@@ -63,7 +63,7 @@ SDL_Texture* Graphics::loadTexture(const std::string file)
 	return _textures[file];
 }
 
-TTF_Font* Graphics::loadFont(const std::string file, const int size)
+TTF_Font* Graphics::loadFont(const std::string& file, const int size)
 {
 	std::pair<std::string, int> pair;
 	pair.first = file;
@@ -81,7 +81,7 @@ TTF_Font* Graphics::loadFont(const std::string file, const int size)
 	return _fonts[pair];
 }
 
-void Graphics::drawTexture(SDL_Texture* texture, const SDL_Rect src, const int x, const int y, const double angle)
+void Graphics::drawTexture(SDL_Texture* texture, const SDL_Rect& src, const int x, const int y, const double angle)
 {
 	int w, h;
 	SDL_QueryTexture(texture, nullptr, nullptr, &w, &h);
@@ -102,7 +102,7 @@ void Graphics::drawTexture(SDL_Texture* texture, const double angle)
 	SDL_RenderCopyEx(_renderer, texture, nullptr, nullptr, angle, nullptr, SDL_FLIP_NONE);
 }
 
-void Graphics::drawText(const int x, const int y, TTF_Font* font, const std::string text, const double angle, const int renderType)
+void Graphics::drawText(const int x, const int y, TTF_Font* font, const std::string& text, const double angle, const int renderType)
 {
 	switch (renderType)
 	{
@@ -115,12 +115,12 @@ void Graphics::drawText(const int x, const int y, TTF_Font* font, const std::str
 	}
 }
 
-void Graphics::drawText(const int x, const int y, TTF_Font* font, const std::string text, const int renderType)
+void Graphics::drawText(const int x, const int y, TTF_Font* font, const std::string& text, const int renderType)
 {
 	drawText(x, y, font, text, 0, renderType);
 }
 
-void Graphics::drawStaticText(const int x, const int y, TTF_Font* font, const std::string text, const double angle = 0)
+void Graphics::drawStaticText(const int x, const int y, TTF_Font* font, const std::string& text, const double angle = 0)
 {
 	SDL_Texture* texture;
 	if (_textures.find(text) == _textures.end())
@@ -137,7 +137,7 @@ void Graphics::drawStaticText(const int x, const int y, TTF_Font* font, const st
 	drawTexture(texture, x, y, angle);
 }
 
-void Graphics::drawDynamicText(const int x, const int y, TTF_Font* font, const std::string text, const double angle = 0)
+void Graphics::drawDynamicText(const int x, const int y, TTF_Font* font, const std::string& text, const double angle = 0)
 {
 	SDL_Surface* surf = TTF_RenderText_Solid(font, text.c_str(), _drawColor);
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(_renderer, surf);
@@ -156,12 +156,12 @@ void Graphics::drawLine(const int x1, const int y1, const int x2, const int y2)
 	SDL_RenderDrawLine(_renderer, x1, y1, x2, y2);
 }
 
-void Graphics::drawFilledRect(const SDL_Rect rect)
+void Graphics::drawFilledRect(const SDL_Rect& rect)
 {
 	SDL_RenderFillRect(_renderer, &rect);
 }
 
-void Graphics::drawRectOutline(const SDL_Rect rect)
+void Graphics::drawRectOutline(const SDL_Rect& rect)
 {
 	SDL_RenderDrawRect(_renderer, &rect);
 }

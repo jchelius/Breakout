@@ -19,7 +19,7 @@ public:
 public:
 	Ball(Graphics* graphics);
 	~Ball();
-	void bounceOffPaddle(const Paddle paddle);
+	void bounceOffPaddle(const Paddle& paddle);
 	void update();
 	void render();
 	void reset();
@@ -27,8 +27,8 @@ public:
 	void setY(const int y);
 	const int getX() const { return _x; }
 	const int getY() const { return _y; }
-	const bool collidesWithPaddle(const Paddle paddle) const;
-	const bool collidesWithBlock(const Block block) const;
+	const bool collidesWithPaddle(const Paddle& paddle) const;
+	const bool collidesWithBlock(const Block& block) const;
 	const bool fellOffScreen() const;
 	const bool hasStarted() const;
 	void start();

@@ -4,7 +4,7 @@
 #include <cmath>
 
 
-const std::string Game::readFile(const std::string file)
+const std::string Game::readFile(const std::string& file)
 {
 	std::ifstream in(file);
 	if(in)
@@ -106,7 +106,7 @@ void Game::loadLevel(const int level)
 	readLevel(file);
 }
 
-void Game::readLevel(const std::string file)
+void Game::readLevel(const std::string& file)
 {
 	_blocks.clear();
 	const std::string contents = readFile(file);

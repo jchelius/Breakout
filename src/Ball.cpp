@@ -48,7 +48,7 @@ void Ball::reset()
 	_vy = 0;
 }
 
-void Ball::bounceOffPaddle(const Paddle paddle)
+void Ball::bounceOffPaddle(const Paddle& paddle)
 {
 	const double diffX = (_x + WIDTH / 2) - (paddle.getX() + paddle.getW() / 2);
 	const double diffY = (_y + HEIGHT / 2) - (paddle.getY() + paddle.getH() / 2);
@@ -74,12 +74,12 @@ void Ball::setY(const int y)
 	_y = y;
 }
 
-const bool Ball::collidesWithPaddle(Paddle paddle) const
+const bool Ball::collidesWithPaddle(const Paddle& paddle) const
 {
 	return _y + HEIGHT >= paddle.getY() && _x > paddle.getX() - WIDTH && _x < paddle.getX() + paddle.getW() + WIDTH;
 }
 
-const bool Ball::collidesWithBlock(const Block block) const
+const bool Ball::collidesWithBlock(const Block& block) const
 {
 	const int xDiff = std::abs((block.getX() + block.getW() / 2) - (_x + WIDTH / 2));
 	const int yDiff = std::abs((block.getY() + block.getH() / 2) - (_y + HEIGHT / 2));

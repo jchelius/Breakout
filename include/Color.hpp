@@ -15,10 +15,10 @@ public:
 	Color();
 	~Color(){ }
 	friend std::ostream& operator<<(std::ostream& os, const Color& color);
-	const bool operator!=(const Color other) const;
-	const bool operator==(const Color other) const;
+	const bool operator!=(const Color& other) const;
+	const bool operator==(const Color& other) const;
 	static const Color randColor();
-	static const Color randColor(const Color exc);
+	static const Color randColor(const Color& exc);
 };
 
 

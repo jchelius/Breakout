@@ -35,12 +35,12 @@ std::ostream& operator<<(std::ostream& os, const Color& color)
 	return os;
 }
 
-const bool Color::operator!=(const Color other) const
+const bool Color::operator!=(const Color& other) const
 {
 	return !operator==(other);
 }
 
-const bool Color::operator==(const Color other) const
+const bool Color::operator==(const Color& other) const
 {
 	return other.r == r && other.g == g && other.b == b && other.a == a;
 }
@@ -54,7 +54,7 @@ const Color Color::randColor()
 	return color;
 }
 
-const Color Color::randColor(const Color exc)
+const Color Color::randColor(const Color& exc)
 {
 	Color color = exc;
 	while(color == exc)
