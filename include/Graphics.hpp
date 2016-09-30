@@ -25,6 +25,7 @@ private:
 	std::map<std::string, SDL_Texture*> _textures;
 	std::map<std::pair<std::string, int>, TTF_Font*> _fonts;
 	SDL_Color _drawColor;
+	int _transX, _transY;
 private:
 	void drawStaticText(const int x, const int y, TTF_Font* font, const std::string& text, const double angle);
 	void drawDynamicText(const int x, const int y, TTF_Font* font, const std::string& text, const double angle);
@@ -47,6 +48,8 @@ public:
 	void drawFilledRect(const SDL_Rect& rect);
 	void drawRectOutline(const SDL_Rect& rect);
 	void update();
+	void translate(const int x, const int y);
+	void resetTransformation();
 };
 
 

@@ -86,10 +86,12 @@ void Game::render()
 {
 	_paddle.render();
 	_ball.render();
+	_graphics->translate(-_blockOffset, 0);
 	for(auto& block : _blocks)
 	{
 		block.render();
 	}
+	_graphics->resetTransformation();
 	_graphics->setDrawColor(Color::RED);
 	const std::string scoreTxt = std::to_string(_score);
 	_graphics->drawText(50, _graphics->getHeight() - 50, _graphics->loadFont(_FONT), "Score:", TEXT_RENDER_STATIC);
@@ -118,6 +120,7 @@ void Game::readLevel(const std::string& file)
 	const int levelHeight = (int)std::floor(contents.size() / levelWidth);
 	const int blockWidth = _graphics->getWidth() / levelWidth;
 	const int blockHeight = (_graphics->getHeight() / 2) / levelHeight;
+	_blockOffset = (_graphics->getWidth() - levelWidth * blockWidth) / 2;
 	int pos = 0;
 	std::string oneLongStr;
 	for(auto const& itr : contents)

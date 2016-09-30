@@ -22,6 +22,7 @@ private:
 	std::vector<Block> _blocks;
 	int _lives;
 	int _score;
+	int _blockOffset;
 	const int _MAX_LIVES, _SCORE_INC;
 	const std::string _FONT;
 public:

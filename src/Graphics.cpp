@@ -13,6 +13,7 @@ Graphics::Graphics(const int width, const int height, const std::string& title):
 	TTF_Init();
 	_window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN);
 	_renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	resetTransformation();
 }
 
 Graphics::~Graphics()
@@ -83,23 +84,36 @@ TTF_Font* Graphics::loadFont(const std::string& file, const int size)
 
 void Graphics::drawTexture(SDL_Texture* texture, const SDL_Rect& src, const int x, const int y, const double angle)
 {
+	if(!texture)
+	{
+		return;
+	}
 	int w, h;
 	SDL_QueryTexture(texture, nullptr, nullptr, &w, &h);
-	SDL_Rect dst = { x, y, w, h };
+	SDL_Rect dst = { x - _transX, y - _transY, w, h };
 	SDL_RenderCopyEx(_renderer, texture, &src, &dst, angle, nullptr, SDL_FLIP_NONE);
 }
 
 void Graphics::drawTexture(SDL_Texture* texture, const int x, const int y, const double angle)
 {
+	if (!texture)
+	{
+		return;
+	}
 	int w, h;
 	SDL_QueryTexture(texture, nullptr, nullptr, &w, &h);
-	SDL_Rect dst = { x, y, w, h };
+	SDL_Rect dst = { x - _transX, y - _transY, w, h };
 	SDL_RenderCopyEx(_renderer, texture, nullptr, &dst, angle, nullptr, SDL_FLIP_NONE);
 }
 
 void Graphics::drawTexture(SDL_Texture* texture, const double angle)
 {
-	SDL_RenderCopyEx(_renderer, texture, nullptr, nullptr, angle, nullptr, SDL_FLIP_NONE);
+	if (!texture)
+	{
+		return;
+	}
+	SDL_Rect actRect = { -_transX, -_transY, _width, _height };
+	SDL_RenderCopyEx(_renderer, texture, nullptr, &actRect, angle, nullptr, SDL_FLIP_NONE);
 }
 
 void Graphics::drawText(const int x, const int y, TTF_Font* font, const std::string& text, const double angle, const int renderType)
@@ -122,6 +136,10 @@ void Graphics::drawText(const int x, const int y, TTF_Font* font, const std::str
 
 void Graphics::drawStaticText(const int x, const int y, TTF_Font* font, const std::string& text, const double angle = 0)
 {
+	if(!font)
+	{
+		return;
+	}
 	SDL_Texture* texture;
 	if (_textures.find(text) == _textures.end())
 	{
@@ -139,6 +157,10 @@ void Graphics::drawStaticText(const int x, const int y, TTF_Font* font, const st
 
 void Graphics::drawDynamicText(const int x, const int y, TTF_Font* font, const std::string& text, const double angle = 0)
 {
+	if (!font)
+	{
+		return;
+	}
 	SDL_Surface* surf = TTF_RenderText_Solid(font, text.c_str(), _drawColor);
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(_renderer, surf);
 	SDL_FreeSurface(surf);
@@ -148,25 +170,39 @@ void Graphics::drawDynamicText(const int x, const int y, TTF_Font* font, const s
 
 void Graphics::drawPoint(const int x, const int y)
 {
-	SDL_RenderDrawPoint(_renderer, x, y);
+	SDL_RenderDrawPoint(_renderer, x - _transX, y - _transY);
 }
 
 void Graphics::drawLine(const int x1, const int y1, const int x2, const int y2)
 {
-	SDL_RenderDrawLine(_renderer, x1, y1, x2, y2);
+	SDL_RenderDrawLine(_renderer, x1 - _transX, y1 - _transY, x2 - _transX, y2 - _transY);
 }
 
 void Graphics::drawFilledRect(const SDL_Rect& rect)
 {
-	SDL_RenderFillRect(_renderer, &rect);
+	SDL_Rect actRect = { rect.x - _transX, rect.y - _transY, rect.w, rect.h };
+	SDL_RenderFillRect(_renderer, &actRect);
 }
 
 void Graphics::drawRectOutline(const SDL_Rect& rect)
 {
-	SDL_RenderDrawRect(_renderer, &rect);
+	SDL_Rect actRect = { rect.x - _transX, rect.y - _transY, rect.w, rect.h };
+	SDL_RenderDrawRect(_renderer, &actRect);
 }
 
 void Graphics::update()
 {
 	SDL_RenderPresent(_renderer);
+}
+
+void Graphics::translate(const int x, const int y)
+{
+	_transX += x;
+	_transY += y;
+}
+
+void Graphics::resetTransformation()
+{
+	_transX = 0;
+	_transY = 0;
 }
