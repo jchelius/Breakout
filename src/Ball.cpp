@@ -43,7 +43,7 @@ void Ball::update()
 void Ball::reset()
 {
 	_x = _graphics->getWidth() / 2 - WIDTH / 2;
-	_y = _graphics->getHeight() / 2;
+	_y = 3 * _graphics->getHeight() / 4;
 	_vx = 0;
 	_vy = 0;
 }
