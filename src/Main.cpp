@@ -20,6 +20,7 @@ int main(int, char**)
 		game.render();
 		graphics->update();
 	}
+	delete input;
 	delete graphics;
 	return 0;
 }
