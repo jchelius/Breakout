@@ -24,4 +24,4 @@ $(ODIR)/%.o: $(SDIR)/%.cpp
 	$(CC) -c -o $@ $< $(LIBS) $(CFLAGS)
 
 clean:
-	rm -rf $(OBJ)/*.o $(PROJECT)
+	rm -rf $(ODIR)/*.o $(PROJECT)
