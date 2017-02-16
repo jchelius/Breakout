@@ -121,7 +121,6 @@ void Game::readLevel(const std::string& file)
 	const int blockWidth = _graphics->getWidth() / levelWidth;
 	const int blockHeight = (_graphics->getHeight() / 2) / levelHeight;
 	_blockOffset = (_graphics->getWidth() - levelWidth * blockWidth) / 2;
-	int pos = 0;
 	std::string oneLongStr;
 	for(auto const& itr : contents)
 	{

@@ -1,7 +1,7 @@
 #ifndef BLOCK_H
 #define BLOCK_H
 
-#include "../include/Graphics.hpp"
+#include "Graphics.hpp"
 
 
 class Block

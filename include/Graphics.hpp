@@ -7,7 +7,7 @@
 #include <map>
 #include <vector>
 
-#include "../include/Color.hpp"
+#include "Color.hpp"
 
 
 enum TextRenderType

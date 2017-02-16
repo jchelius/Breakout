@@ -1,7 +1,7 @@
 #ifndef PADDLE_H
 #define PADDLE_H
 
-#include "../include/Graphics.hpp"
+#include "Graphics.hpp"
 
 
 class Paddle
@@ -9,8 +9,8 @@ class Paddle
 private:
 	Graphics* _graphics;
 	int _x, _y;
-	const int _MOVE_AMOUNT;
 	const Color _COLOR;
+	const int _MOVE_AMOUNT;
 	const int _WIDTH, _HEIGHT;
 public:
 	Paddle(Graphics* graphics);

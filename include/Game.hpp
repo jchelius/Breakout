@@ -1,11 +1,11 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "../include/Graphics.hpp"
-#include "../include/Input.hpp"
-#include "../include/Paddle.hpp"
-#include "../include/Ball.hpp"
-#include "../include/Block.hpp"
+#include "Graphics.hpp"
+#include "Input.hpp"
+#include "Paddle.hpp"
+#include "Ball.hpp"
+#include "Block.hpp"
 
 #include <vector>
 
@@ -13,8 +13,8 @@
 class Game
 {
 private:
-	Input* _input;
 	Graphics* _graphics;
+	Input* _input;
 	bool _start;
 	Paddle _paddle;
 	Ball _ball;

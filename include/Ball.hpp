@@ -1,9 +1,9 @@
 #ifndef BALL_H
 #define BALL_H
 
-#include "../include/Graphics.hpp"
-#include "../include/Paddle.hpp"
-#include "../include/Block.hpp"
+#include "Graphics.hpp"
+#include "Paddle.hpp"
+#include "Block.hpp"
 
 
 class Ball
