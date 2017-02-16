@@ -14,6 +14,7 @@ Graphics::Graphics(const int width, const int height, const std::string& title):
 	_window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN);
 	_renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	resetTransformation();
+	setDrawColor(Color::BLACK);
 }
 
 Graphics::~Graphics()
