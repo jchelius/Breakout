@@ -4,7 +4,7 @@
 Input::Input():
 	_shouldQuit(false)
 {
-	_keys = SDL_GetKeyboardState(NULL);
+	resetKeys();
 }
 
 void Input::update()
@@ -17,6 +17,15 @@ void Input::update()
 			_shouldQuit = true;
 		}
 	}
+	if(isKeyDown(SDL_SCANCODE_ESCAPE))
+	{
+		_shouldQuit = true;		
+	}
+}
+
+void Input::resetKeys()
+{
+	_keys = SDL_GetKeyboardState(NULL);
 }
 
 const int Input::getMousePosX()

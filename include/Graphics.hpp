@@ -50,6 +50,7 @@ public:
 	void update();
 	void translate(const int x, const int y);
 	void resetTransformation();
+	void delay(Uint32 ms);
 };
 
 

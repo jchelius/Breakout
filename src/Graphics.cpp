@@ -207,3 +207,8 @@ void Graphics::resetTransformation()
 	_transX = 0;
 	_transY = 0;
 }
+
+void Graphics::delay(Uint32 ms)
+{
+	SDL_Delay(ms);
+}

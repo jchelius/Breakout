@@ -23,7 +23,7 @@ const std::string Game::readFile(const std::string& file)
 Game::Game(Graphics* graphics, Input* input) :
 	_graphics(graphics),
 	_input(input),
-	_start(false),
+	_start(true),
 	_paddle(graphics),
 	_ball(graphics),
 	_MAX_LIVES(3),
@@ -35,15 +35,19 @@ Game::Game(Graphics* graphics, Input* input) :
 
 void Game::update()
 {
-	if (_input->isKeyDown(SDL_SCANCODE_LEFT))
+	if (_input->isKeyDown(SDL_SCANCODE_LEFT) && _start == true)
 	{
 		_paddle.moveLeft();
 		startBallIfNeeded();
 	}
-	if (_input->isKeyDown(SDL_SCANCODE_RIGHT))
+	if (_input->isKeyDown(SDL_SCANCODE_RIGHT) && _start == true)
 	{
 		_paddle.moveRight();
 		startBallIfNeeded();
+	}
+	if(!_input->isKeyDown(SDL_SCANCODE_RIGHT) && !_input->isKeyDown(SDL_SCANCODE_LEFT) && _start == false)
+	{
+		_start = true;
 	}
 	_ball.update();
 	if (_ball.collidesWithPaddle(_paddle))
@@ -75,6 +79,10 @@ void Game::update()
 		_lives--;
 		_ball.reset();
 		_paddle.reset();
+		if(_input->isKeyDown(SDL_SCANCODE_LEFT) || _input->isKeyDown(SDL_SCANCODE_RIGHT))
+		{
+			_start = false;
+		}
 	}
 	if(_lives == 0)
 	{

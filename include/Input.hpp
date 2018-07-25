@@ -13,6 +13,7 @@ public:
 	Input();
 	~Input(){ }
 	void update();
+	void resetKeys();
 	const bool shouldQuit() const { return _shouldQuit; }
 	const SDL_Keycode isKeyDown(const SDL_Scancode key) const { return _keys[key]; }
 	const int getMousePosX();
