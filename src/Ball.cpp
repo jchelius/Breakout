@@ -50,8 +50,8 @@ void Ball::reset()
 
 void Ball::bounceOffPaddle(const Paddle& paddle)
 {
-	const double diffX = (_x + WIDTH / 2) - (paddle.getX() + paddle.getW() / 2);
-	const double diffY = (_y + HEIGHT / 2) - (paddle.getY() + paddle.getH() / 2);
+	const double diffX = ((double)_x + WIDTH / 2) - ((double)paddle.getX() + paddle.getW() / 2);
+	const double diffY = ((double)_y + HEIGHT / 2) - ((double)paddle.getY() + paddle.getH() / 2);
 	_vx = (int) (_VEL_MAG *  diffX / paddle.getW());
 	_vy = (int) (_VEL_MAG *  diffY / paddle.getH());
 }

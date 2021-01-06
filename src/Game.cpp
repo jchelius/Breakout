@@ -23,11 +23,13 @@ const std::string Game::readFile(const std::string& file)
 Game::Game(Graphics* graphics, Input* input) :
 	_graphics(graphics),
 	_input(input),
-	_start(true),
+	_isOkayToPollInput(false),
 	_paddle(graphics),
 	_ball(graphics),
 	_MAX_LIVES(3),
+	_MAX_LEVELS(7),
 	_SCORE_INC(50),
+	_RESET_WAIT_TIME_MS(125),
 	_FONT("res/fonts/ttf-bitstream-vera-1.10/Vera.ttf")
 {
 	reset();
@@ -35,19 +37,25 @@ Game::Game(Graphics* graphics, Input* input) :
 
 void Game::update()
 {
-	if (_input->isKeyDown(SDL_SCANCODE_LEFT) && _start == true)
+	if (_isOkayToPollInput) 
 	{
-		_paddle.moveLeft();
-		startBallIfNeeded();
+		if (_input->isKeyDown(SDL_SCANCODE_LEFT))
+		{
+			_paddle.moveLeft();
+			startBallIfNeeded();
+		}
+		if (_input->isKeyDown(SDL_SCANCODE_RIGHT))
+		{
+			_paddle.moveRight();
+			startBallIfNeeded();
+		}
 	}
-	if (_input->isKeyDown(SDL_SCANCODE_RIGHT) && _start == true)
+	else 
 	{
-		_paddle.moveRight();
-		startBallIfNeeded();
-	}
-	if(!_input->isKeyDown(SDL_SCANCODE_RIGHT) && !_input->isKeyDown(SDL_SCANCODE_LEFT) && _start == false)
-	{
-		_start = true;
+		if (!_input->isKeyDown(SDL_SCANCODE_LEFT) && !_input->isKeyDown(SDL_SCANCODE_RIGHT)) 
+		{
+			_isOkayToPollInput = true;
+		}
 	}
 	_ball.update();
 	if (_ball.collidesWithPaddle(_paddle))
@@ -69,24 +77,25 @@ void Game::update()
 	}
 	if(_blocks.size() == 0)
 	{
-		_level++;
-		loadLevel(_level);
+		if (_level <= _MAX_LEVELS) 
+		{
+			_level++;
+			loadLevel(_level);
+		}
 		_ball.reset();
 		_paddle.reset();
+		waitForKeyLift();
 	}
 	if(_ball.fellOffScreen())
 	{
 		_lives--;
 		_ball.reset();
 		_paddle.reset();
-		if(_input->isKeyDown(SDL_SCANCODE_LEFT) || _input->isKeyDown(SDL_SCANCODE_RIGHT))
+		if (_lives == 0)
 		{
-			_start = false;
+			reset();
 		}
-	}
-	if(_lives == 0)
-	{
-		reset();
+		waitForKeyLift();
 	}
 }
 
@@ -129,6 +138,7 @@ void Game::readLevel(const std::string& file)
 	const int blockWidth = _graphics->getWidth() / levelWidth;
 	const int blockHeight = (_graphics->getHeight() / 2) / levelHeight;
 	_blockOffset = (_graphics->getWidth() - levelWidth * blockWidth) / 2;
+	int pos = 0;
 	std::string oneLongStr;
 	for(auto const& itr : contents)
 	{
@@ -153,8 +163,6 @@ void Game::readLevel(const std::string& file)
 
 void Game::reset()
 {
-	_paddle.reset();
-	_ball.reset();
 	_lives = _MAX_LIVES;
 	_score = 0;
 	_level = 1;
@@ -167,4 +175,10 @@ void Game::startBallIfNeeded()
 	{
 		_ball.start();
 	}
+}
+
+void Game::waitForKeyLift()
+{
+	_isOkayToPollInput = false; // Give the user time before next round
+	SDL_Delay(_RESET_WAIT_TIME_MS);
 }
